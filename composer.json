@@ -1,0 +1,27 @@
+{
+    "require": {
+        "ergebnis/composer-normalize": "^2.50",
+        "team-reflex/discord-php": "^10.46"
+    },
+    "require-dev": {
+        "pestphp/pest": "^4.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "ShipIt\\": "src/",
+            "ShipIt\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "pestphp/pest-plugin": true
+        },
+        "minimum-stability": "dev",
+        "prefer-stable": true,
+        "sort-packages": true
+    },
+    "scripts": {
+        "test": "pest --compact --display-deprecations --display-phpunit-deprecations"
+    }
+}
