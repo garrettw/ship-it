@@ -9,7 +9,11 @@ use ShipIt\Domain\Player\Player;
 
 class WinCondition
 {
-    public function isMet(Game $game, Player $player): bool
+    public function __construct(
+        private Game $game
+    ) {
+    }
+    public function isMet(Player $player): bool
     {
         // Example logic:
         // return count($player->drivers) >= X

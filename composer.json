@@ -1,5 +1,6 @@
 {
     "require": {
+        "crell/tukio": "^2.0",
         "ergebnis/composer-normalize": "^2.50",
         "team-reflex/discord-php": "^10.46"
     },

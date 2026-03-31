@@ -11,8 +11,8 @@ use Discord\WebSockets\Event;
 
 $discord = new Discord([
     'token' => 'bot-token',
-    'intents' => Intents::getDefaultIntents()
-//      | Intents::MESSAGE_CONTENT, // Note: MESSAGE_CONTENT is privileged, see https://dis.gd/mcfaq
+    'intents' => Intents::getDefaultIntents() | Intents::MESSAGE_CONTENT, 
+    // Note: MESSAGE_CONTENT is privileged, see https://dis.gd/mcfaq
 ]);
 
 $discord->on('ready', function (Discord $discord) {

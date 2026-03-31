@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace ShipIt\Domain\Player;
 
-class Player
+readonly class Player
 {
-    private string $id;
-    private string $name;
+    public string $id;
+    public string $name;
 
-    private Hand $hand;
+    public Hand $hand;
 
-    private array $activeCards; // e.g. drivers/blockers in play
+    public PlayerBoard $board;
 }
