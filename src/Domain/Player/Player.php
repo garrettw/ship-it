@@ -6,10 +6,15 @@ namespace ShipIt\Domain\Player;
 
 readonly class Player
 {
-    public string $id;
-    public string $name;
-
     public Hand $hand;
 
     public PlayerBoard $board;
+
+    public function __construct(
+        public string $id,
+        public string $name,
+    ) {
+        $this->hand = new Hand();
+        $this->board = new PlayerBoard();
+    }
 }

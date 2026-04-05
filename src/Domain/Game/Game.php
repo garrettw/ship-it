@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace ShipIt\Domain\Game;
 
-use Crell\Tukio\Dispatcher;
 use ShipIt\Domain\Board\Deck;
 use ShipIt\Domain\Board\DiscardPile;
 use ShipIt\Domain\Game\Event\GameStarted;
@@ -23,13 +22,12 @@ class Game
 
     private int $currentPlayerIndex = 0;
 
-    private bool $gameInProgress = false;
+    public private(set) bool $gameInProgress = false;
 
     public function __construct(
         private Deck $deck,
         private DiscardPile $discardPile,
         private WinCondition $winCondition,
-        private Dispatcher $dispatcher
     ) {
 
     }
@@ -44,36 +42,37 @@ class Game
         }
         $this->players = new \Random\Randomizer()->shuffleArray($this->players);
         $this->gameInProgress = true;
-        $this->dispatcher->dispatch(new GameStarted($this));
+        return new GameStarted($this);
     }
 
-    public function advanceTurn(): void
+    public function advanceTurn()
     {
         $this->currentPlayerIndex =
             ($this->currentPlayerIndex + 1) % count($this->players);
-        $this->dispatcher->dispatch(new PlayerAdvanced($this));
+        return new PlayerAdvanced($this);
     }
 
-    public function addPlayer(Player $player): void
+    public function addPlayer(Player $player)
     {
         $this->players[$player->id] = $player;
-        $this->dispatcher->dispatch(new PlayerAdded($player));
+        return new PlayerAdded($player);
     }
 
-    public function removePlayer(Player $player): void
+    public function removePlayer(string $id)
     {
-        unset($this->players[$player->id]);
-        $this->dispatcher->dispatch(new PlayerRemoved($player));
+        $player = $this->players[$id];
+        unset($this->players[$id]);
         if ($this->gameInProgress && count($this->players) < 2) {
             throw new NotEnoughPlayersException('Only one player remains; gameplay ending.');
         }
+        return new PlayerRemoved($player);
     }
 
-    public function checkWin(Player $player): void
+    public function checkWin(Player $player)
     {
         if ($this->winCondition->isMet($player)) {
-            $this->dispatcher->dispatch(new GameWon($player));
             $this->end();
+            return new GameWon($player);
         }
     }
 
